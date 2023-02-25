@@ -1,0 +1,2 @@
+https://github.com/angular/angular.js/tree/master/vendor/closure-compiler
+https://github.com/google/closure-compiler#downloading-from-maven-repository
