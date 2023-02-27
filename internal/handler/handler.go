@@ -1,12 +1,19 @@
 package handler
 
-import "github.com/labstack/echo/v4"
+import (
+	"embed"
+
+	"github.com/labstack/echo/v4"
+)
 
 type Handler struct {
+	public embed.FS
 }
 
-func NewHandler() *Handler {
-	return &Handler{}
+func NewHandler(public embed.FS) *Handler {
+	return &Handler{
+		public: public,
+	}
 }
 
 func RegisterRoutes(e *echo.Echo, h *Handler) {
@@ -14,5 +21,6 @@ func RegisterRoutes(e *echo.Echo, h *Handler) {
 	e.POST("/v1/upload", h.Upload)
 
 	// HTML
-	e.File("/", "public/index.html")
+	fs := echo.MustSubFS(h.public, "public")
+	e.StaticFS("/", fs)
 }

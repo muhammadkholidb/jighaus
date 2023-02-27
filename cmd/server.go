@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"embed"
 	"jighaus/internal/config"
 	"jighaus/internal/handler"
 
@@ -9,7 +10,7 @@ import (
 	"github.com/labstack/gommon/log"
 )
 
-func Server() {
+func Server(public embed.FS) {
 	err := config.Load()
 	if err != nil {
 		log.Fatal("Failed to load config: ", err)
@@ -17,7 +18,7 @@ func Server() {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
-	h := handler.NewHandler()
+	h := handler.NewHandler(public)
 	handler.RegisterRoutes(e, h)
 	err = e.Start(config.Data.Port)
 	if err != nil {

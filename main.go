@@ -1,7 +1,13 @@
 package main
 
-import "jighaus/cmd"
+import (
+	"embed"
+	"jighaus/cmd"
+)
+
+//go:embed public/*
+var public embed.FS
 
 func main() {
-	cmd.Server()
+	cmd.Server(public)
 }
